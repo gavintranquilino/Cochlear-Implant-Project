@@ -1,14 +1,3 @@
-function out = downsamp(InSignal, ratio)
-    InLength = size(InSignal);
-    InLength = InLength(:,1);
-
-    out = [0:1:InLength/ratio-1];
-
-    for index = 1:InLength/ratio
-        out(index) = InSignal(round(index*ratio)-1);
-    end
-end
-
 function signal = file2Signal(inFile, outFile, sampleRate) 
     [y, Fs] = audioread(inFile); % y is the actual audio, Fs is sampling 
 
@@ -27,21 +16,28 @@ function signal = file2Signal(inFile, outFile, sampleRate)
 
     % downsampling 
 
-    multiplier = Fs / sampleRate;
-
-    signal = downsamp(y, multiplier)
-
-    sound(signal, sampleRate);
+    signal = resample(y, sampleRate, Fs);
 
     % plotting 
 
-    subplot(1, 2, 1)
-    plot(y, "r");
-    title("raw");
+    subplot(1, 2, 1);
+    plot(signal);
+    title("Downsampled Input Audio");
+
+    % make cosine
+    n = [0 : 1 : sizeOfY(:,1)];
+    cosine = cos((2 * pi * 1000) .* (n ./ Fs));
 
     subplot(1, 2, 2);
-    plot(signal);
-    title("downsampled");
+    plot(cosine);
+    xlim([0,2*Fs/1000]);
+    title("Cosine Wave");
+
+    % audio
+    player = audioplayer(signal, sampleRate);
+    playblocking(player);
+    
+    sound(cosine, Fs);
 
 end
 
