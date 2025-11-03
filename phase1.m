@@ -18,10 +18,17 @@ function signal = file2Signal(inFile, outFile, sampleRate)
 
     signal = resample(y, sampleRate, Fs);
 
+    % start phase 2 
+    N = 8;
+    f_low = 100;
+    f_high = 8000;
+    
+    band_edges = logspace(log10(f_low), log10(f_high), N+1)
+
+    %{
     % plotting 
 
-    subplot(1, 2, 1);
-    plot(signal);
+    subplot(1, 2, 1); plot(signal);
     title("Downsampled Input Audio");
 
     % make cosine
@@ -38,6 +45,7 @@ function signal = file2Signal(inFile, outFile, sampleRate)
     playblocking(player);
     
     sound(cosine, Fs);
+    %}
 
 end
 
