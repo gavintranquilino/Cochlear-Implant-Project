@@ -15,17 +15,58 @@ function signal = file2Signal(inFile, outFile, sampleRate)
     audiowrite(outFile, y, Fs)
 
     % downsampling 
-
     signal = resample(y, sampleRate, Fs);
 
-    % start phase 2 
+    % PHASE 2
+    % Task 4: exponentially space the edges of each band's channel
     N = 8;
     f_low = 100;
-    f_high = 8000;
-    
-    band_edges = logspace(log10(f_low), log10(f_high), N+1)
+    f_high = 7999;
 
-    %{
+    band_edges = logspace(log10(f_low), log10(f_high), N+1); 
+
+    % Task 5: apply the filter 
+    bands = zeros(size(signal, 1), N);
+    for i = 1:1:N
+        disp(i)
+        [b, a] = butter(5, [band_edges(i) band_edges(i+1)]/(sampleRate/2)); % coefficients of transfer function
+        bands(:, i) = filter(b, a, signal);
+    end
+
+    % Task 6: Plot lowest and highest frequency channels
+    subplot(2, 2, 1); plot(bands(:, 1));
+    title("Lowest Frequency Channel");
+    subplot(2, 2, 2); plot(bands(:, N));
+    title("Highest Frequency Channel");
+
+    % Task 7
+    bands = abs(bands);
+    
+    % Task 8
+    [b, a] = butter(5, 400/(sampleRate/2));    
+
+    new_bands = zeros(size(signal));
+
+    for i = 1:1:N
+        disp(i)
+        bands(:, i) = filter(b, a, bands(:, i));
+    end
+
+    % Task 9: plot lowest and highest frequency channels
+    subplot(2, 2, 3); plot(bands(:, 1));
+    title("Lowest Frequency Channel (enveloped)");
+    subplot(2, 2, 4); plot(bands(:, N));
+    title("Highest Frequency Channel (enveloped)");
+
+    % new_bands = sum(bands, 2);
+
+    new_bands = bands(:, 2) + bands(:, 3) + bands(:, 4) + bands(:, 5) + bands(:, 6) + bands(:, 7);
+    subplot(2, 2, 4); plot(new_bands);
+    player = audioplayer(new_bands, sampleRate);
+    playblocking(player);
+
+    %{ 
+    % ========= END OF PHASE 1 USING AND PLOTTING COSINE 
     % plotting 
 
     subplot(1, 2, 1); plot(signal);
@@ -49,7 +90,8 @@ function signal = file2Signal(inFile, outFile, sampleRate)
 
 end
 
-inputFile = "track2.mp3";
+inputFile = "Audio Track 4.mp3";
+% inputFile = "track2.mp3";
 outputFile = "track2-mono.mp3";
 
 signal = file2Signal(inputFile, outputFile, 16000);
