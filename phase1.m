@@ -1,4 +1,4 @@
-clear; clc; close
+clear; clc; close all;
 
 % PHASE 1
 function signal = file2Signal(inFile, outFile, sampleRate) 
@@ -95,18 +95,22 @@ function signal = file2Signal(inFile, outFile, sampleRate)
 end
 
 % PHASE 2
-function bands = filterSignal(inSignal, lowFreq, highFreq, numBands, sampleRate)
+function bands = filterSignal(inSignal, filterType, filterName, lowFreq, highFreq, numBands, sampleRate)
+
     % Task 4: exponentially space the edges of each band's channel
     band_edges = logspace(log10(lowFreq), log10(highFreq), numBands+1); 
 
     % Task 5: apply the filter 
     bands = zeros(size(inSignal, 1), numBands);
     for i = 1:1:numBands
-        % disp(i)
-        [b, a] = butter(5, [band_edges(i) band_edges(i+1)]/(sampleRate/2)); % coefficients of transfer function
-        bands(:, i) = filter(b, a, inSignal);
+        % disp(i)c, inSignal)
+        % [b, a] = butter(5, [band_edges(i) band_edges(i+1)]/(sampleRate/2)); % coefficients of transfer function
+        currentFilter = filterType(10, band_edges(i), band_edges(i+1), sampleRate, 1, 100);
+        bands(:, i) = filter(currentFilter, inSignal);
     end
 
+    
+    figure("Name", strcat("Lowest and Highest Frequency Bands for ", filterName, " Filter"))
     % Task 6: Plot lowest and highest frequency channels
     subplot(2, 2, 1); plot(bands(:, 1));
     title("Lowest Frequency Channel");
@@ -129,14 +133,17 @@ function bands = filterSignal(inSignal, lowFreq, highFreq, numBands, sampleRate)
     subplot(2, 2, 4); plot(bands(:, numBands));
     title("Highest Frequency Channel (enveloped)");
 
+    sgtitle(strcat("Lowest and Highest Frequency Bands for ", filterName, " Filter"))
+
     % Testing filter output by summing up post-envelop-detection/filtered signals together
     % new_bands = bands(:, 2) + bands(:, 3) + bands(:, 4) + bands(:, 5) + bands(:, 6) + bands(:, 7);
-    new_bands = sum(bands, 2);
+    % new_bands = sum(bands, 2);
+    % new_bands = new_bands .* 5;
     % hold off;
 
     % plot(new_bands);
-    player = audioplayer(new_bands, sampleRate);
-    playblocking(player);
+    % player = audioplayer(new_bands, sampleRate);
+    % playblocking(player);
 end
 
 % inputFile = "Audio Track 4.mp3";
@@ -144,4 +151,10 @@ inputFile = "track2.mp3";
 outputFile = "track2-mono.mp3";
 
 signal = file2Signal(inputFile, outputFile, 16000);
-bands = filterSignal(signal, 100, 7999, 8, 16000);
+
+
+% Uncomment to produce bands for each 
+buttterworth_bands = filterSignal(signal, @butterworth, "Butterworth", 100, 7999, 8, 16000);
+chebyone_bands = filterSignal(signal, @chebyone, "Chebyshev Type I", 100, 7999, 8, 16000);
+chebytwo_bands = filterSignal(signal, @chebytwo, "Chebyshev Type II", 100, 7999, 8, 16000);
+elliptic_bands = filterSignal(signal, @elliptic, "Elliptic", 100, 7999, 8, 16000);
