@@ -18,4 +18,25 @@ function signal = phase1(inFile, outFile, sampleRate)
 
     % downsampling
     signal = resample(y, sampleRate, Fs);
+
+    % % plotting 
+
+    % subplot(1, 2, 1);
+    % plot(signal);
+    % title("Downsampled Input Audio");
+
+    % % make cosine
+    % n = [0 : 1 : sizeOfY(:,1)];
+    % cosine = cos((2 * pi * 1000) .* (n ./ Fs));
+
+    % subplot(1, 2, 2);
+    % plot(cosine);
+    % xlim([0,2*Fs/1000]);
+    % title("Cosine Wave");
+
+    % % audio
+    % player = audioplayer(signal, sampleRate);
+    % playblocking(player);
+    
+    % sound(cosine, Fs);
 end
