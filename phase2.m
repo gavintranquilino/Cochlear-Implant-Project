@@ -36,7 +36,7 @@ function bands = phase2(inSignal, filterType, filterName, lowFreq, highFreq, num
     % Task 9: plot lowest and highest frequency channels
     subplot(2, 2, 3); plot(bands(:, 1));
     title("Lowest Frequency Channel (enveloped)");
-    subplot(2, 2, 4); plot(bands(:, numBands));
+    subplot(2, 2, 4); plot(bands(:, end));
     title("Highest Frequency Channel (enveloped)");
 
     sgtitle(strcat("Lowest and Highest Frequency Bands for ", filterName, " Filter"))
@@ -48,6 +48,6 @@ function bands = phase2(inSignal, filterType, filterName, lowFreq, highFreq, num
     % hold off;
 
     % plot(new_bands);
-    % player = audioplayer(new_bands, sampleRate);
+    % player = audioplayer(bands(:, end), sampleRate);
     % playblocking(player);
 end

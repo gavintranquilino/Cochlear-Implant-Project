@@ -1,6 +1,6 @@
-classdef phase2Filters
+classdef phase2Filters_BandPass
     methods (Static)
-        function Hd = butterworth(order, cutoffFreq1, cutoffFreq2, sampleRate, passBandGain, stopBandGain)
+        function Hd = butterworth(order, cutoffFreq1, cutoffFreq2, sampleRate, ~, ~)
             %BUTTERWORTH Returns a discrete-time filter object.
 
             % MATLAB Code
@@ -21,7 +21,7 @@ classdef phase2Filters
             Hd = design(h, 'butter');
         end
         
-        function Hd = chebyone(order, cutoffFreq1, cutoffFreq2, sampleRate, passBandGain, stopBandGain)
+        function Hd = chebyone(order, cutoffFreq1, cutoffFreq2, sampleRate, passBandGain, ~)
             %CHEBY1 Returns a discrete-time filter object.
 
             % MATLAB Code
@@ -43,7 +43,7 @@ classdef phase2Filters
             Hd = design(h, 'cheby1');
         end
 
-        function Hd = chebytwo(order, cutoffFreq1, cutoffFreq2, sampleRate, passBandGain, stopBandGain)
+        function Hd = chebytwo(order, cutoffFreq1, cutoffFreq2, sampleRate, ~, stopBandGain)
             %CHEBYTWO Returns a discrete-time filter object.
 
             % MATLAB Code
