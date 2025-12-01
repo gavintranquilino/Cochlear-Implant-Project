@@ -1,7 +1,7 @@
 
 
 % PHASE 2
-function [bands, band_edges] = phase2(inSignal, filterType, filterName, lowFreq, highFreq, numBands, sampleRate)
+function [bands, band_edges] = phase2(inSignal, filterType, filterName, lowFreq, highFreq, overlap_factor, numBands, sampleRate)
 
     % Task 4: exponentially space the edges of each band's channel
     band_edges = logspace(log10(lowFreq), log10(highFreq), numBands+1); % logarithmically spaced bands
@@ -12,6 +12,13 @@ function [bands, band_edges] = phase2(inSignal, filterType, filterName, lowFreq,
     for i = 1:1:numBands
         % disp(i)c, inSignal)
         % [b, a] = butter(5, [band_edges(i) band_edges(i+1)]/(sampleRate/2)); % coefficients of transfer function
+        m = (band_edges(i+1) - band_edges(i)) * overlap_factor;
+        if i > 1
+            band_edges(i) = band_edges(i) - m;
+        end
+        if i + 1 < numBands
+            band_edges(i+1) = band_edges(i+1) + m;
+        end
         currentFilter = filterType(10, band_edges(i), band_edges(i+1), sampleRate, 1, 100);
         bands(:, i) = filter(currentFilter, inSignal);
     end
