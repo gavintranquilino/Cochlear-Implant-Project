@@ -16,7 +16,7 @@ function outputSound = phase3(bands, numBands, band_edges, sampleRate, outFile)
         % disp(size(n))
         % disp(size(bands))
 
-        modulated_bands(:, i) = square((2 * pi * central_freqs(i)) .* n, 95) .* bands(:, i);
+        modulated_bands(:, i) = cos((2 * pi * central_freqs(i)) .* n) .* bands(:, i);
     end
 
     % Task 12: 
