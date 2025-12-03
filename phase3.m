@@ -10,12 +10,8 @@ function outputSound = phase3(bands, numBands, band_edges, sampleRate, outFile)
         central_freqs(i) = sqrt(band_edges(i)*band_edges(i+1)); % calculate geometric mean of each band
         
         % Task 11:
-        n = [1:1:size(bands, 1)]' / sampleRate;
+        n = transpose(1:1:size(bands, 1)) / sampleRate;
         
-        % disp(size(modulated_bands))
-        % disp(size(n))
-        % disp(size(bands))
-
         modulated_bands(:, i) = cos((2 * pi * central_freqs(i)) .* n) .* bands(:, i);
     end
 
@@ -30,10 +26,4 @@ function outputSound = phase3(bands, numBands, band_edges, sampleRate, outFile)
     % player = audioplayer(outputSound, sampleRate);
     % playblocking(player);
     % sound(outputSound, sampleRate);
-
-    % audiowrite(outFile, modulated_bands(:, 18), sampleRate);
-    % % player = audioplayer(modulated_bands(:, 18), sampleRate);
-    % % playblocking(player);
-    % % sound(modulated_bands(:, 18), sampleRate);
-
 end

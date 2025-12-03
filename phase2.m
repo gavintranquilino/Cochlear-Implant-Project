@@ -4,8 +4,8 @@
 function [bands, band_edges] = phase2(inSignal, filterType, filterName, lowFreq, highFreq, overlap_factor, numBands, sampleRate)
 
     % Task 4: exponentially space the edges of each band's channel
-    % band_edges = logspace(log10(lowFreq), log10(highFreq), numBands+1); % logarithmically spaced bands
-    band_edges = linspace(lowFreq, highFreq, numBands+1); % linearly spaced bands
+    band_edges = logspace(log10(lowFreq), log10(highFreq), numBands+1); % logarithmically spaced bands
+    % band_edges = linspace(lowFreq, highFreq, numBands+1); % linearly spaced bands
 
     % Task 5: apply the filter 
     bands = zeros(size(inSignal, 1), numBands);

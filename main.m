@@ -1,20 +1,21 @@
 clear; clc; close all;
 
 % inputFile = "Audio Track 4.mp3";
-inputFile = "track3.mp3";
-monoFile = "track3-mono.mp3";
-outputFile = "track3-out.mp3";
+inputFile = "track4.mp3";
+monoFile = "track4-mono.mp3";
+outputFile = "final-track4-out.mp3";
 sampleRate = 16000;
-numBands = 24;
+% numBands = 24;
+numBands = 8;
 
 tic
 signal = phase1(inputFile, monoFile, sampleRate);
 
 % Uncomment to produce lowest and highest frequency bands for each section
-% [bands, band_edges] = phase2(signal, @phase2Filters_BandPass.butterworth, "Butterworth", 100, 7999, -0.1, numBands, sampleRate);
+[bands, band_edges] = phase2(signal, @phase2Filters_BandPass.butterworth, "Butterworth", 100, 7999, 0, numBands, sampleRate);
 % [bands, band_edges] = phase2(signal, @phase2Filters_BandPass.chebyone, "Chebyshev Type I", 100, 7999, -0.1, numBands, sampleRate);
 % [bands, band_edges] = phase2(signal, @phase2Filters_BandPass.chebytwo, "Chebyshev Type II", 100, 7999, 0, numBands, sampleRate);
-[bands, band_edges] = phase2(signal, @phase2Filters_BandPass.elliptic, "Elliptic", 100, 7999, -0.1, numBands, sampleRate);
+% [bands, band_edges] = phase2(signal, @phase2Filters_BandPass.elliptic, "Elliptic", 100, 7999, -0.1, numBands, sampleRate);
 
 % manual spacing
 % numBands = 18;
