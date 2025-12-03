@@ -1,9 +1,9 @@
 clear; clc; close all;
 
 % inputFile = "Audio Track 4.mp3";
-inputFile = "track1.mp3";
-monoFile = "track1-mono.mp3";
-outputFile = "best1-track1-out.mp3";
+inputFile = "track3.mp3";
+monoFile = "track3-mono.mp3";
+outputFile = "track3-out.mp3";
 sampleRate = 16000;
 numBands = 24;
 
