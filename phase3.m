@@ -9,23 +9,20 @@ function outputSound = phase3(bands, numBands, band_edges, sampleRate, outFile)
         % Task 10: Generate cosine waves of central frequencies
         central_freqs(i) = sqrt(band_edges(i)*band_edges(i+1)); % calculate geometric mean of each band
         
-        % Task 11:
-        n = [1:1:size(bands, 1)]';
-        
-        % disp(size(modulated_bands))
-        % disp(size(n))
-        % disp(size(bands))
+        % Task 11: Amplitude modulate the signals
+        n = (1:1:size(bands, 1))'; % Generate discrete time array from 1 to band size
+                                   % transpose to column for element-wise operations with bands
 
         modulated_bands(:, i) = cos((2 * pi * central_freqs(i)) .* n) .* bands(:, i);
     end
 
-    % Task 12: 
+    % Task 12: Sum amplitude modulated bands to create output signal
     outputSound = sum(modulated_bands, 2);
     maxOutput = max(outputSound);
     outputSound = outputSound / maxOutput;
     
     
-    % Task 13
+    % Task 13: Write audio file
     audiowrite(outFile, outputSound, sampleRate);
     % player = audioplayer(outputSound, sampleRate);
     % playblocking(player);

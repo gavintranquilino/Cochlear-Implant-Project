@@ -10,8 +10,8 @@ function [bands, band_edges] = phase2(inSignal, filterType, filterName, lowFreq,
     % Task 5: apply the filter 
     bands = zeros(size(inSignal, 1), numBands);
     for i = 1:1:numBands
-        % disp(i)c, inSignal)
-        % [b, a] = butter(5, [band_edges(i) band_edges(i+1)]/(sampleRate/2)); % coefficients of transfer function
+        
+        % Apply overlap/gap factor; overlap_factor > 0 means overlap / < 1 means gap of overlap_factor*2 * current channel bandwidth
         m = (band_edges(i+1) - band_edges(i)) * overlap_factor;
         if i > 1
             band_edges(i) = band_edges(i) - m;
@@ -19,6 +19,8 @@ function [bands, band_edges] = phase2(inSignal, filterType, filterName, lowFreq,
         if i + 1 < numBands
             band_edges(i+1) = band_edges(i+1) + m;
         end
+
+        % Apply bandpass filter specified as function argument
         currentFilter = filterType(10, band_edges(i), band_edges(i+1), sampleRate, 1, 100);
         bands(:, i) = filter(currentFilter, inSignal);
     end
