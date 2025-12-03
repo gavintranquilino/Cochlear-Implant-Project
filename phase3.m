@@ -23,7 +23,7 @@ function outputSound = phase3(bands, numBands, band_edges, sampleRate, outFile)
     
     % Task 13: Write audio file
     audiowrite(outFile, outputSound, sampleRate);
-    % player = audioplayer(outputSound, sampleRate);
-    % playblocking(player);
-    % sound(outputSound, sampleRate);
+    player = audioplayer(outputSound, sampleRate);
+    playblocking(player);
+    sound(outputSound, sampleRate);
 end

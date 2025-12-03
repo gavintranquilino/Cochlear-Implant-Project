@@ -4,8 +4,8 @@
 function [bands, band_edges] = phase2(inSignal, filterType, filterName, lowFreq, highFreq, overlap_factor, numBands, sampleRate)
 
     % Task 4: exponentially space the edges of each band's channel
-    band_edges = logspace(log10(lowFreq), log10(highFreq), numBands+1); % logarithmically spaced bands
-    % band_edges = linspace(lowFreq, highFreq, numBands+1); % linearly spaced bands
+    % band_edges = logspace(log10(lowFreq), log10(highFreq), numBands+1); % logarithmically spaced bands
+    band_edges = linspace(lowFreq, highFreq, numBands+1); % linearly spaced bands
 
     % Task 5: apply the filter 
     bands = zeros(size(inSignal, 1), numBands);
@@ -26,12 +26,12 @@ function [bands, band_edges] = phase2(inSignal, filterType, filterName, lowFreq,
     end
 
     
-    % figure("Name", strcat("Lowest and Highest Frequency Bands for ", filterName, " Filter"))
-    % % Task 6: Plot lowest and highest frequency channels
-    % subplot(2, 2, 1); plot(bands(:, 1));
-    % title("Lowest Frequency Channel");
-    % subplot(2, 2, 2); plot(bands(:, numBands));
-    % title("Highest Frequency Channel");
+    figure("Name", strcat("Lowest and Highest Frequency Bands for ", filterName, " Filter"))
+    % Task 6: Plot lowest and highest frequency channels
+    subplot(2, 2, 1); plot(bands(:, 1));
+    title("Lowest Frequency Channel");
+    subplot(2, 2, 2); plot(bands(:, numBands));
+    title("Highest Frequency Channel");
 
     % Task 7
     bands = abs(bands);
@@ -44,10 +44,10 @@ function [bands, band_edges] = phase2(inSignal, filterType, filterName, lowFreq,
     end
 
     % Task 9: plot lowest and highest frequency channels
-    % subplot(2, 2, 3); plot(bands(:, 1));
-    % title("Lowest Frequency Channel Envelope");
-    % subplot(2, 2, 4); plot(bands(:, end));
-    % title("Highest Frequency Channel Envelope");
+    subplot(2, 2, 3); plot(bands(:, 1));
+    title("Lowest Frequency Channel Envelope");
+    subplot(2, 2, 4); plot(bands(:, end));
+    title("Highest Frequency Channel Envelope");
 
     % sgtitle(strcat("Lowest and Highest Frequency Bands for ", filterName, " Filter"))
 
